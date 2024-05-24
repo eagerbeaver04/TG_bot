@@ -94,7 +94,8 @@ def show_current_reminders(message):
             )
             if reminder[5] and reminder[6] != '0 0 0':
                 keyboard.row(
-                    types.InlineKeyboardButton("Редактировать периодичность", callback_data=f"edit_period_{reminder[0]}"))
+                    types.InlineKeyboardButton("Редактировать периодичность",
+                                               callback_data=f"edit_period_{reminder[0]}"))
                 bot.send_message(message.chat.id,
                                  f"Периодическое напоминание. Описание: {reminder[1]}, Дата: {reminder[2]}. Период: {reminder[6]}",
                                  reply_markup=keyboard)
@@ -353,7 +354,7 @@ def start(message):
         f"Привет, {user.first_name}!\n"
         "Я бот для лабораторной №2 Маркова Михаила, студента группы 5030102/10201. Я помогу "
         "организовать твои дела и не забыть о них.\n"
-        "Для добавления нового важного и не очень напоминания используй команду /add.\n"
+        "Для напоминания используй команду /add.\n"
         "Остальное тебе расскажет сам бот."
         " Приятного использования!"
     )
@@ -498,7 +499,7 @@ def ask_attachment(message, period=False):
     markup = telebot.types.InlineKeyboardMarkup()
     if period:
         markup.row(telebot.types.InlineKeyboardButton("Да", callback_data="attach_yes_period"),
-               telebot.types.InlineKeyboardButton("Нет", callback_data="attach_no_period"))
+                   telebot.types.InlineKeyboardButton("Нет", callback_data="attach_no_period"))
     else:
         markup.row(telebot.types.InlineKeyboardButton("Да", callback_data="attach_yes"),
                    telebot.types.InlineKeyboardButton("Нет", callback_data="attach_no"))
@@ -630,7 +631,6 @@ def handle_document(message):
             file_id = upload_file_to_drive(service, file_path)
             save_file_info_to_database(user_id, reminder_id, file_id, f"photo_{message.photo[-1].file_id}.jpg")
             os.remove(file_path)
-
 
 
 def get_latest_reminder_id(user_id):
@@ -774,23 +774,6 @@ def add_user_schedule(user_id, interval_minutes):
 #     bot.polling()
 
 
-# if __name__ == '__main__':
-#     try:
-#         main()
-#     except Exception:
-#         main()
-
-# def start_check_reminders():
-#     while True:
-#         schedule.run_pending()
-#         time.sleep(30)
-
-
-# def main():
-#     reminder_thread = threading.Thread(target=start_check_reminders)
-#     reminder_thread.start()
-#     bot.polling()
-
 def start_bot_polling():
     bot.polling()
 
@@ -800,4 +783,3 @@ if __name__ == '__main__':
     bot_thread.start()
 
     uvicorn.run('server:app', host='0.0.0.0', port=5000, reload=True)
-

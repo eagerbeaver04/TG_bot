@@ -1,7 +1,5 @@
 import schedule
 from fastapi import FastAPI
-import datetime
-from main import bot
 
 app = FastAPI()
 
